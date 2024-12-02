@@ -1,0 +1,10 @@
+{
+    "plugins": [["./plugins/babel-plugin-remove-debugger.js"], ["./plugins/babel-plugin-micro.js"]],
+    "presets": [
+        ["@babel/preset-env", { "targets": {
+            "ie": "10",
+            "chrome": "54"
+        }, "useBuiltIns": "usage", "corejs": "3.35" }],
+        ["@babel/preset-typescript"]
+    ]
+}

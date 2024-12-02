@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>母狗摄像头</title>
+</head>
+<body>
+    <video id="mugoushexiangtou" />
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            var video = document.getElementById("mugoushexiangtou");
+            var constraints = {
+                // audio: false,
+                video: {
+                    width: 1280,
+                    height: 720,
+                    facingMode: "user"
+                }
+            };
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function (stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.error("获取摄像头失败：", error);
+                });
+        })
+    </script>
+</body>
+</html>

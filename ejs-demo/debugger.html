@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>infinite debugger</title>
+  </head>
+  <body>
+    <div>欢迎来到王者荣耀!!!</div>
+    <script>
+      setInterval(function () {
+        check();
+      }, 4000);
+      var check = function () {
+        try {
+            (function () {})["constructor"]("debugger")();
+        } catch (err) {}
+      };
+      check();
+    </script>
+  </body>
+</html>

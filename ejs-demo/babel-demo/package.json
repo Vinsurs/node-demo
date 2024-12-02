@@ -1,0 +1,27 @@
+{
+  "name": "babel-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "babel src -d dist --extensions .ts,.js --out-file-extension .js --delete-dir-on-start",
+    "babel:help": "babel --help"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/preset-typescript": "^7.23.3",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^20.11.3",
+    "core-js": "^3.35.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21"
+  }
+}

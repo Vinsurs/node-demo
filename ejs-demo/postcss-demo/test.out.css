@@ -1,0 +1,6 @@
+.div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: hsla(50, 33%, 25%, 0.75);
+}

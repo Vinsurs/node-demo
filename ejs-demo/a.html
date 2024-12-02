@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            border: 1px solid red;
+            width: 100vw;
+            height: 50vh;
+        }
+        .videwContainer {
+            border: 1px solid skyblue;
+            width: 100vw;
+            height: 50vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="videwContainer">
+        <video controls playsinline="true" webkit-playsinline="true" width="400" height="300">
+            <source src="/jigong.mp4" type="video/mp4">
+            <p>抱歉, 不支持video标签</p>
+        </video>
+    </div> -->
+    <p>分割一下</p>
+    <div class="container">
+        <canvas id="canvas" width="400" height="300">
+            您的浏览器不支持canvas标签
+        </canvas>
+        <div>
+            我是文本
+        </div>
+    </div>
+    <div>
+        <button id="btn">播放</button>
+    </div>
+    <script src="/vconsole.min.js"></script>
+    <script>
+    // VConsole will be exported to `window.VConsole` by default.
+    var vConsole = new window.VConsole();
+    </script>
+    <script>
+        init()
+        async function init() {
+            async function getUrl(url) {
+                const res = await fetch(url)
+                console.info("res:", res)
+                const blob = await res.blob()
+                return URL.createObjectURL(blob)
+            }
+            /** @type {HTMLCanvasElement} */
+            const canvas = document.getElementById('canvas');
+            /** @type {CanvasRenderingContext2D} */
+            const ctx = canvas.getContext('2d');
+            const video = document.createElement('video');
+            video.width = 400;
+            video.height = 300;
+            // const videoUrl = await getUrl("/jigong.mp4")
+            const videoUrl = "/jigong.mp4"
+            video.src = videoUrl
+            video.setAttribute("controls", "true")
+            video.setAttribute("playsinline", "true")
+            video.setAttribute("preload", "auto")
+            video.setAttribute("webkit-playsinline", "true")
+            // video.setAttribute("x5-playsinline", "true")
+            // video.setAttribute("x-webkit-airplay", "allow")
+            // video.setAttribute("x5-video-player-type", "h5")
+            // video.setAttribute("t5-video-player-type", "inline")
+            // video.setAttribute("t7-video-player-type", "inline")
+            // video.setAttribute("x5-video-player-fullscreen", "true")
+            // video.setAttribute("x5-video-orientation", "portraint")
+
+            let callbackId = null
+            function render() {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+                // ctx.clearRect(0, 0, canvas.width, canvas.height)
+                // ctx.strokeStyle = '#0f0'
+                // ctx.rect(0, 0, canvas.width / 2, canvas.height / 2)
+                // ctx.stroke()
+                callbackId = video.requestVideoFrameCallback(render) 
+            }
+            video.addEventListener("loadeddata", function () {
+                if (callbackId === null) {
+                    console.info("loadeddata triggered")
+                    // callbackId = video.requestVideoFrameCallback(render)
+                }
+            }, false)
+            const btn = document.querySelector('#btn')
+            btn.addEventListener("click", function () {
+                alert("点击了按钮" + video.paused)
+                if (video.paused) {
+                    if (callbackId === null) {
+                        callbackId = video.requestVideoFrameCallback(render)
+                    }
+                    video.play()
+                } else {
+                    video.pause()
+                    video.cancelVideoFrameCallback(callbackId)
+                    callbackId  = null
+                }
+            }, false)
+            video.addEventListener("play", function () {
+                alert("视频正在播放!!!" + typeof video.requestVideoFrameCallback)
+            }, false)
+            video.addEventListener("pause", function () {
+                alert("视频暂停播放")
+            }, false)
+            document.body.append(video)
+        }
+    </script>
+</body>
+</html>

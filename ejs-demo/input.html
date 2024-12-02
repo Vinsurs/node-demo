@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>focused input memory exposure</title>
+</head>
+<body>
+    <button>创建并删除输入框</button>
+    <script>
+        const button = document.querySelector('button');
+        button.addEventListener('click', function() {
+            const input = document.createElement('input');
+            document.body.appendChild(input);
+            input.focus();
+            setTimeout(() => {
+                input.remove();
+                /* 删除后，input的焦点仍然存在，导致内存泄露 */
+            }, 1000)
+        }, false)
+        window.addEventListener("beforeunload", function () {
+            return false
+        })
+    </script>
+</body>
+</html>

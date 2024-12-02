@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="./node_modules/codemirror/theme/monokai.css" />
+    <link rel="stylesheet" href="./node_modules/codemirror/addon/hint/show-hint.css" />
+</head>
+
+<body>
+    <textarea id="root"></textarea>
+    <script src="./node_modules/codemirror/lib/codemirror.js"></script>
+    <!-- <script src="./node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script> -->
+    <script src="./node_modules/codemirror/mode/javascript/javascript.js"></script>
+    <script src="./node_modules/codemirror/addon/hint/show-hint.js"></script>
+    <!-- <script src="./node_modules/codemirror/addon/hint/html-hint.js"></script> -->
+    <script>
+    var editor = CodeMirror.fromTextArea(document.getElementById('root'), {
+	    mode: 'javascript',
+        lineNumbers: true,
+        theme: 'monokai', // 'dracula',
+        lineWrapping: true,
+        styleActiveLine: true,
+        matchBrackets: true,
+        smartIndent: true,
+	});
+    const code = `<html>
+        <body>
+            <div>html文本</div>
+        </body>
+    </html>`
+    const jsCode = `function add(a, b) {
+        return a + b
+    }`
+    editor.setValue(jsCode)
+	editor.on("change", function (editor, change) {//任意键触发autocomplete
+        console.info("change: ", editor.getValue())
+	});
+
+	</script>
+</body>
+
+</html>

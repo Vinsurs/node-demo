@@ -1,0 +1,29 @@
+{
+  "name": "rollupdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c --environment MUGOU:DIED,FUCK_MUGOU",
+    "preview": "pnpx http-server dist -c-1 --no-dotfiles --cors"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-html": "^1.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-run": "^3.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/enquire.js": "^2.1.5",
+    "@types/node": "^20.10.4",
+    "http-server": "^14.1.1",
+    "rollup": "^4.9.0"
+  },
+  "dependencies": {
+    "enquire.js": "^2.1.6"
+  }
+}

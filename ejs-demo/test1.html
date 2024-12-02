@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FabricJS group demo</title>
+    <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+</head>
+
+<body>
+    <canvas id="c" width="600" height="450" style="border: 1px solid red;"></canvas>
+    <div>
+        <button id="group">分组</button>
+        <button id="ungroup">取消分组</button>
+        <button id="multiselect">多选</button>
+        <button id="addmore">添加更多</button>
+        <button id="discard">丢弃选中</button>
+        <button id="copy">导出并赋值json</button>
+        <button id="restore">从json中恢复</button>
+    </div>
+    <script type="text/javascript">
+        (function () {
+
+            function add() {
+                var red = new fabric.Rect({
+                    top: Math.random() * canvas.height, left: Math.random() * canvas.width, width: 80, height: 50, fill: 'red'
+                });
+                var blue = new fabric.Rect({
+                    top: Math.random() * canvas.height, left: Math.random() * canvas.width, width: 50, height: 70, fill: 'blue'
+                });
+                var green = new fabric.Rect({
+                    top: Math.random() * canvas.height, left: Math.random() * canvas.width, width: 60, height: 60, fill: 'green'
+                });
+                canvas.add(red, blue, green);
+            }
+
+            var $ = function (id) { return document.getElementById(id) };
+
+            var canvas = this.__canvas = new fabric.Canvas('c');
+            canvas.on('object:modified', function(ev) {
+                console.info("object:modified", ev.target.type, ev.target._objects)
+            })
+            var red = new fabric.Rect({
+                top: 100, left: 0, width: 80, height: 50, fill: 'red'
+            });
+            var blue = new fabric.Rect({
+                top: 0, left: 100, width: 50, height: 70, fill: 'blue'
+            });
+            var green = new fabric.Rect({
+                top: 100, left: 100, width: 60, height: 60, fill: 'green'
+            });
+            fabric.Object.prototype.transparentCorners = false;
+            canvas.add(red, blue, green)
+            var group = $('group'),
+                ungroup = $('ungroup'),
+                multiselect = $('multiselect'),
+                addmore = $('addmore'),
+                copy = $('copy'),
+                restore = $('restore'),
+                discard = $('discard');
+
+            addmore.onclick = add;
+
+            multiselect.onclick = function () {
+                canvas.discardActiveObject();
+                var sel = new fabric.ActiveSelection(canvas.getObjects(), {
+                    canvas: canvas,
+                });
+                canvas.setActiveObject(sel);
+                canvas.requestRenderAll();
+            }
+
+            group.onclick = function () {
+                if (!canvas.getActiveObject()) {
+                    return;
+                }
+                if (canvas.getActiveObject().type !== 'activeSelection') {
+                    return;
+                }
+                canvas.getActiveObject().toGroup();
+                canvas.requestRenderAll();
+            }
+
+            ungroup.onclick = function () {
+                if (!canvas.getActiveObject()) {
+                    return;
+                }
+                if (canvas.getActiveObject().type !== 'group') {
+                    return;
+                }
+                canvas.getActiveObject().toActiveSelection();
+                canvas.requestRenderAll();
+            }
+
+            discard.onclick = function () {
+                canvas.discardActiveObject();
+                canvas.requestRenderAll();
+            }
+
+            copy.onclick = function () {
+                const activeObject = canvas.getActiveObject();
+                if (!activeObject) return;
+                const json = activeObject.toJSON();
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(JSON.stringify(json));
+                }
+            }
+
+            restore.onclick = async function () {
+                if(navigator.clipboard) {
+                    const json = await navigator.clipboard.readText();
+                    if (json) {
+                        const content = JSON.parse(json);
+                        console.info("content: ", content)
+                        if (content.type === 'activeSelection') {
+                            canvas.discardActiveObject();
+                            canvas.requestRenderAll();
+                            fabric.ActiveSelection.fromObject(content, obj => {
+                                console.info("obj: ", obj, obj instanceof fabric.ActiveSelection)
+                                const group = obj.toGroup()
+                                console.info("group: ", obj, group, obj === group)
+                                // canvas.add(obj);
+                                // obj.center();
+                                // canvas.setActiveObject(obj);
+                                // canvas.requestRenderAll();
+                            });
+                        }
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>

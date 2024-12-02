@@ -1,0 +1,27 @@
+{
+  "name": "vue-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "preview": "pnpm run build && pnpx serve dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-html": "^1.0.4",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-replace": "^6.0.1",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "browser-sync": "^3.0.3",
+    "execa": "^9.5.1",
+    "rollup": "^4.26.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.6.3",
+    "vue": "^3.5.12"
+  }
+}

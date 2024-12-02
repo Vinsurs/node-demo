@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="getFrame()">获取poster</button>
+    <script>
+        // const src = "/movie.mp4"
+        const src = "/jigong.mp4"
+        function getFrame() {
+            const video = document.createElement("video")
+            function getPoster() {
+                const canvas = document.createElement("canvas")
+                canvas.width = video.videoWidth
+                canvas.height = video.videoHeight
+                const ctx = canvas.getContext("2d")
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+                const poster = canvas.toDataURL("image/png")
+                const img = document.createElement("img")
+                img.src = poster
+                document.body.appendChild(img)
+                video.removeEventListener("canplay", getPoster, false)
+            }
+            video.addEventListener("canplay", getPoster, false)
+            video.currentTime = 1
+            video.src = src
+        }
+    </script>
+</body>
+</html>

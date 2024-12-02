@@ -1,0 +1,40 @@
+{
+  "name": "postcss-pxtorem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/postcss-pxtorem.mjs",
+  "type": "module",
+  "types": "./dist/pxtorem.d.ts",
+  "typings": "./dist/pxtorem.d.ts",
+  "exports": {
+    ".": {
+      "default": "./dist/postcss-pxtorem.cjs",
+      "import": "./dist/postcss-pxtorem.mjs",
+      "require": "./dist/postcss-pxtorem.cjs",
+      "types": "./dist/pxtorem.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@types/node": "^22.7.6",
+    "rollup": "^4.24.0",
+    "tslib": "^2.8.0",
+    "typescript": "^5.6.3"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.47"
+  },
+  "peerDependenciesMeta": {
+    "postcss": {
+      "optional": false
+    }
+  }
+}

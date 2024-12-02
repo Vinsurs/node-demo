@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FabricJS group demo</title>
+    <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+    <style>
+        p {
+            --stroke-color: blue;
+            --stroke-width: 1px;
+            font-size: 52px;
+            color: red;
+        }
+        p.text-shadow {
+            text-shadow: var(--stroke-width) 0 var(--stroke-color),
+                        0 var(--stroke-width) var(--stroke-color),
+                        calc(0px - var(--stroke-width)) 0 var(--stroke-color),
+                        0 calc(0px - var(--stroke-width)) var(--stroke-color);
+        }
+        p.text-stroke {
+            -webkit-text-stroke: var(--stroke-width) var(--stroke-color);
+        }
+        ::selection {
+            background-color: yellow;
+        }
+        .color {
+            font-size: 52px;
+            color: red;
+        }
+        .rulesCalculation {
+            margin-top: 16px;
+            font-family: "PingFang SC";
+            font-size: 28px;
+            color: #333333;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            width: 600px;
+            background-color: red;
+        }
+        .highLight {
+            color: #3775f6;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c" width="600" height="450" style="border: 1px solid red;"></canvas>
+    <div>
+        <button id="add">初始添加</button>
+        <button id="count">获取个数</button>
+    </div>
+    <p class="text-shadow">
+        这里是一段文本内容，<i>这里是斜体</i>; <em>这里是强调文本</em>
+    </p>
+    <div class="color">
+        文字颜色
+    </div>
+    <p class="text-stroke">
+        这里是一段文本内容，<i>这里是斜体</i>; <em>这里是强调文本</em>
+    </p>
+    <div class="rulesCalculation">
+        （文化成绩<span class="highLight">×30％</span>）+（专业成绩<span class="highlight">/450×750×70％</span>）
+    </div>
+    <script type="text/javascript">
+        (function () {
+            var $ = function (id) { return document.getElementById(id) };
+            fabric.Rect.prototype.stateProperties.push('name');
+            var canvas = this.__canvas = new fabric.Canvas('c');
+            canvas.on('object:modified', function (ev) {
+                console.info("object:modified", ev.target.type, ev.target)
+            })
+            fabric.Object.prototype.transparentCorners = false;
+            var addEl = $('add'),
+                countEl = $('count');
+
+            addEl.onclick = function () {
+                var circle1 = new fabric.Circle({
+                    radius: 50,
+                    fill: 'red',
+                    left: 0
+                });
+                var circle2 = new fabric.Circle({
+                    radius: 50,
+                    fill: 'green',
+                    left: 100
+                });
+                var circle3 = new fabric.Circle({
+                    radius: 50,
+                    fill: 'blue',
+                    left: 200
+                });
+
+                var group = new fabric.Group([circle1, circle2, circle3], {
+                    left: 100,
+                    top: 100,
+                });
+
+                canvas.add(group);
+            }
+            countEl.onclick = function () {
+                const groups = canvas.getObjects("group")
+                const group = groups.at(0)
+                // 在组合中心添加一个长方形：
+                const centerRect = new fabric.Rect({
+                    width: 50,
+                    height: 40,
+                    fill: 'red',
+                    originX: 'center',
+                    originY: 'center',
+                    name: '居中矩形'
+                })
+                centerRect.toObject = (function (toObject) {
+                    return function () {
+                        return fabric.util.object.extend(toObject.call(this), {
+                            name: this.name
+                        })
+                    }
+                })(centerRect.toObject);
+                group.add(centerRect);
+                canvas.requestRenderAll();
+            }
+            window.cvs = canvas;
+        })();
+    </script>
+    <script>
+        // 小红书搜索框下拉展示
+        ;(function observe() {
+            let addedNode = null
+            const box = document.querySelector('.input-box');
+            const ob = new MutationObserver(entris => {
+                const finder = entris.find(entry => entry.type === 'childList' && entry.addedNodes.length > 0)
+                if (finder) {
+                    ([addedNode] = finder.addedNodes);
+                }
+                if (addedNode) {
+                    ob.disconnect()
+                }
+            })
+            ob.observe(box, {
+                childList: true
+            })
+            const timer = setInterval(() => {
+                if (addedNode && !box.contains(addedNode)) {
+                    console.info("appended node")
+                    box.append(addedNode)
+                }
+            }, 1500)
+            window.addEventListener("beforeunload", function () {
+                clearInterval(teimer)
+            })
+        })();
+    </script>
+</body>
+
+</html>

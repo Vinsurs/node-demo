@@ -1,0 +1,19 @@
+{
+  "name": "postcss-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "compile": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.21",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "postcss-preset-env": "^9.4.0"
+  }
+}

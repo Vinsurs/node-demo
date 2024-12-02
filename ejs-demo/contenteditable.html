@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contentEditable</title>
+    <style>
+        :root {
+            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            font-weight: 400;
+
+            color-scheme: light dark;
+            color: rgba(255, 255, 255, 0.87);
+            background-color: #242424;
+
+            font-synthesis: none;
+            /* 加上这行代码会影响斜体标签没有斜体效果 */
+            /* text-rendering: optimizeLegibility; */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-text-size-adjust: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div contenteditable="true">
+        <b>这个是粗体</b>
+        <i>这个是斜体</i>
+    </div>
+    <button onclick="getClipboardData()">按钮</button>
+    <script>
+        function getClipboardData() {
+            navigator.clipboard.read().then(items => {
+                if (items.length > 0) {
+                    console.info("items:", items[0].types)
+                    const types = items[0].types
+                    if (types.includes("image/png")) {
+                        items[0].getType("image/png").then(blob => {
+                            console.info("blob,", blob)
+                            const objectUrl = window.URL.createObjectURL(blob)
+                            window.open(objectUrl, "_blank")
+                        })
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+</html>

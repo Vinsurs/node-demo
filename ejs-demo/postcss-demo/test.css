@@ -1,0 +1,4 @@
+.div {
+    display: flex;
+    background-color: hsl(50 33% 25% / 75%);
+}

@@ -1,0 +1,29 @@
+{
+  "name": "babel-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "tsc:init": "tsc --init",
+    "compile": "babel src -d dist --extensions \".ts\" --out-file-extension \".cjs\"",
+    "info": "babel -h"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/plugin-transform-class-properties": "^7.23.3",
+    "@babel/plugin-transform-object-rest-spread": "^7.23.4",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/preset-typescript": "^7.23.3",
+    "babel-loader": "^9.1.3",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0"
+  },
+  "dependencies": {
+    "core-js": "3"
+  }
+}

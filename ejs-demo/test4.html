@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas paste demo</title>
+</head>
+<body>
+    <canvas width="400" height="300" id="canvas" style="border: 1px solid skyblue;"></canvas>
+    <script>
+        /** @type {HTMLCanvasElement} */
+        const canvas = document.querySelector("#canvas") 
+        const ctx = canvas.getContext("2d")
+        ctx.fillStyle = 'skyblue'
+        ctx.fillRect(0, 0, 50, 30)
+        ctx.translate(canvas.width / 2, canvas.height / 2)
+        ctx.fillStyle = 'yellow'
+        ctx.fillRect(0, 0, 50, 30)
+        ctx.translate(50, 30)
+        ctx.fillStyle = 'pink'
+        ctx.fillRect(0, 0, 50, 30)
+        ctx.resetTransform()
+        ctx.fillStyle = 'red'
+        ctx.fillRect(50, 30, 50, 30)
+    </script>
+</body>
+</html>
